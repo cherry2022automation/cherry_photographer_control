@@ -23,6 +23,7 @@
 # ・ファイル名表示
 # ・最終調整
 # ・等級「捨て」追加
+# ・ファイル拡張子「bmp」→「jpeg」変更
 # -----------------------------------------------
 
 from re import M
@@ -57,7 +58,7 @@ class control_frame(tk.Frame):
         variety_en = {"高砂":"Takasago", "佐藤錦":"Satonishiki", "紅秀峰":"Benishuho"}
         grade_en = {"特秀":"Tokushu", "秀":"Shu", "マル秀":"Marushu", "ハネ出し":"Hanedashi", "捨て":"Sute"}
         directions = ["RIGHT", "BUTTOM", "LEFT", "TOP"]
-        extension = '.bmp'
+        extension = '.jpeg'
         new_file_names = []
         for dir in directions:
             new_file_names.append(serial_text + "_" + variety_en[self.cbox_variety.get()] + "_" + grade_en[self.cbox_grade.get()] + "_" + self.cbox_size.get() +  "_" + time_stamp + "_" + dir + extension)
@@ -82,7 +83,7 @@ class control_frame(tk.Frame):
         self.button_run['state'] = "disable"
 
         file_names = self.create_new_file_name()
-        file_name = file_names[0].replace('_RIGHT.bmp', '')
+        file_name = file_names[0].replace('_RIGHT.jpeg', '')
         self.picture_frame_1.view_picture_name.set(file_name)
 
         thread = threading.Thread(target=self.cycle_run)
