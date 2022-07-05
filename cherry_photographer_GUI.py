@@ -22,6 +22,7 @@
 # ・動作紐づけ
 # ・ファイル名表示
 # ・最終調整
+# ・等級「捨て」追加
 # -----------------------------------------------
 
 from re import M
@@ -45,8 +46,8 @@ frame_around_pixel = 10
 class control_frame(tk.Frame):
 
     variety = ["高砂", "佐藤錦", "紅秀峰"]
-    grade = ["特秀", "秀", "マル秀", "ハネ出し"]
-    size = ["S", "M", "L", "test"] # 要修正
+    grade = ["特秀", "秀", "マル秀", "ハネ出し", "捨て"]
+    size = ["S", "M", "L", "X", "test"] # 要修正
 
     runnning = False
 
@@ -54,7 +55,7 @@ class control_frame(tk.Frame):
         serial_text = str(self.new_serial_number()).zfill(5)
         time_stamp = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
         variety_en = {"高砂":"Takasago", "佐藤錦":"Satonishiki", "紅秀峰":"Benishuho"}
-        grade_en = {"特秀":"Tokushu", "秀":"Shu", "マル秀":"Marushu", "ハネ出し":"Hanedashi"}
+        grade_en = {"特秀":"Tokushu", "秀":"Shu", "マル秀":"Marushu", "ハネ出し":"Hanedashi", "捨て":"Sute"}
         directions = ["RIGHT", "BUTTOM", "LEFT", "TOP"]
         extension = '.bmp'
         new_file_names = []
