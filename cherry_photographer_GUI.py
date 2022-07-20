@@ -46,7 +46,7 @@ frame_around_pixel = 10
 
 class control_frame(tk.Frame):
 
-    variety = ["高砂", "佐藤錦", "紅秀峰"]
+    variety = ["高砂", "佐藤錦", "紅秀峰", "南陽"]
     grade = ["特秀", "秀", "マル秀", "ハネ出し", "捨て"]
     size = ["S", "M", "L", "X", "test"] # 要修正
 
@@ -55,7 +55,7 @@ class control_frame(tk.Frame):
     def create_new_file_name(self):
         serial_text = str(self.new_serial_number()).zfill(5)
         time_stamp = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
-        variety_en = {"高砂":"Takasago", "佐藤錦":"Satonishiki", "紅秀峰":"Benishuho"}
+        variety_en = {"高砂":"Takasago", "佐藤錦":"Satonishiki", "紅秀峰":"Benishuho", "南陽":"Nanyo"}
         grade_en = {"特秀":"Tokushu", "秀":"Shu", "マル秀":"Marushu", "ハネ出し":"Hanedashi", "捨て":"Sute"}
         directions = ["RIGHT", "BUTTOM", "LEFT", "TOP"]
         extension = '.jpeg'
@@ -339,11 +339,6 @@ class status_box_frame(tk.Frame):
 
         self.status_box.configure(state="disabled")
 
-    # def add_line(self, text, bg):
-    #     self.status_box.configure(state="normal")
-    #     self.status_box.insert('end', text+'\n')
-    #     self.status_box.configure(state="disabled")
-
     def __init__(self, master = None):
 
         self.master = master
@@ -354,11 +349,6 @@ class status_box_frame(tk.Frame):
         text = StringVar()
         self.status_box = Text(self.frame_status_box, height=20, width=20, state="disabled")
         self.status_box.grid(row=0, column=0, sticky=(N, W, S, E))
-
-        # スクロールバー処理
-        # self.scrollbar = ttk.Scrollbar(self.frame_status_box, orient=VERTICAL, command=self.status_box.yview)
-        # self.status_box['yscrollcommand'] = self.scrollbar.set
-        # self.scrollbar.grid(row=0, column=1, sticky=(N, S))
 
         # 背景色用タグ設定
         self.status_box.tag_config('runnning', background="salmon")
