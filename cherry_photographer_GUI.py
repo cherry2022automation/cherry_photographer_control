@@ -1,29 +1,7 @@
 # =============================================== 
-# Cherry_Photographer_GUI_ver3.1.py
+# Cherry_Photographer_GUI.py
 # ===============================================
-# コンボボックスの値を取得してボタンが押されたら出力
-# -----------------------------------------------
-# ・コンボボックス追加
-# ・デバック用ボタン追加
-# ・入力欄クラス化
-# ・画像表示 png→jpeg対応
-# ・画像リサイズ
-# ・画像をフレーム内に描画
-# ；画像を4枚配置
-# ・画像関連整理
-# ・メニューバー表示
-# ・マニュアル操作ウィンドウ追加
-# ・ログボックス追加(紐づけなし)
-# ・ファイル名生成実装
-# ・フレーム配置改善
-# ・ステータスハイライト表示実装
-# ・各フレーム、フレームクラス継承
-# ・画像更新 リアルタイム化
-# ・動作紐づけ
-# ・ファイル名表示
-# ・最終調整
-# ・等級「捨て」追加
-# ・ファイル拡張子「bmp」→「jpeg」変更
+# Cherry Photographer 操作用プログラム
 # -----------------------------------------------
 
 from re import M
@@ -44,11 +22,12 @@ import shutil
 
 frame_around_pixel = 10
 
+# 操作関連フレーム
 class control_frame(tk.Frame):
 
     variety = ["高砂", "佐藤錦", "紅秀峰", "南陽"]
     grade = ["特秀", "秀", "マル秀", "ハネ出し", "捨て"]
-    size = ["S", "M", "L", "X", "test"] # 要修正
+    size = ["S", "M", "L", "X", "test"]
 
     runnning = False
 
@@ -89,7 +68,6 @@ class control_frame(tk.Frame):
         thread = threading.Thread(target=self.cycle_run)
         thread.start()
 
-        
         self.button_run['state'] = "normal"
 
     def shoot_and_get(self, cherry_pi_num, file_names):
@@ -211,6 +189,7 @@ class control_frame(tk.Frame):
         self.cbox_size.pack(side=LEFT)
         self.button_run.pack(side=LEFT)
 
+# プレビュー表示用フレーム
 class picture_frame(tk.Frame):
 
     preview_w_size = int(4056/16)
@@ -229,7 +208,6 @@ class picture_frame(tk.Frame):
     last_time_no_image = [False, False, False, False]
     display_picture_serial = 0
 
-    # view_picture_names = ["preview_R.jpeg", "preview_B.jpeg", "preview_L.jpeg", "preview_T.jpeg"]
     view_picture_names = ["", "", "", ""]
     no_image_file_name = "no_image.png"
 
@@ -294,7 +272,6 @@ class picture_frame(tk.Frame):
                 self.canvas[i] = tk.Canvas(frame_picture, width=self.preview_w_size, height=self.preview_h_size)
 
         self.view_picture_name = tk.StringVar()
-        # self.view_picture_name.set("eee")
         self.label_name = tk.Label(frame_picture, textvariable=self.view_picture_name)
 
         # 配置
@@ -310,6 +287,7 @@ class picture_frame(tk.Frame):
         self.update_picture()
         self.time_event()
 
+# 進行状況表示フレーム
 class status_box_frame(tk.Frame):
 
     strings = [ "操作待ち",
@@ -359,6 +337,7 @@ class status_box_frame(tk.Frame):
         self.status_box.tag_configure('highlight', background='salmon')
         self.status_box.tag_add('highlight', '1.0', '1.end')
 
+# マニュアル操作画面 カメラ操作用フレーム
 class camera_frame(tk.Frame):
 
     # タイマー処理 作成中
@@ -408,7 +387,6 @@ class camera_frame(tk.Frame):
 
         # フレーム生成
         self.frame_camera = ttk.Frame(self.master, padding=16, borderwidth=1, relief="ridge")
-        # self.frame_camera.pack(side=LEFT, padx=frame_around_pixel, pady=frame_around_pixel)
         self.frame_camera.grid(row=0, column=self.num-1, padx=frame_around_pixel, pady=frame_around_pixel)
         
         self.label_camera_name = tk.Label(self.frame_camera, text = "Cherry Pi "+text)
@@ -429,6 +407,7 @@ class camera_frame(tk.Frame):
 
         self.time_event()
 
+# マニュアル操作画面 スライダー操作用フレーム
 class slider_frame(tk.Frame):
 
     def update_position():
@@ -444,7 +423,6 @@ class slider_frame(tk.Frame):
             distance = int(distance)
         except:
             return
-        # print(distance)
         client = cherry.SocketClient(cherry.ip_1, cherry.SLIDER_PORT)
         client.move(distance)
 
@@ -454,9 +432,7 @@ class slider_frame(tk.Frame):
 
         widget_width = 8
 
-        # フレーム生成
         self.frame_slider = ttk.Frame(self.master, padding=16, borderwidth=1, relief="ridge")
-        # self.frame_slider.pack(side=BOTTOM, padx=frame_around_pixel, pady=frame_around_pixel)
         self.frame_slider.grid(row=1, column=0, columnspan=2, padx=frame_around_pixel, pady=frame_around_pixel)
         
         self.label_name = tk.Label(self.frame_slider, text = "Slider")
@@ -474,6 +450,7 @@ class slider_frame(tk.Frame):
         self.tbox_distance.grid(row=2, column=0)
         self.button_move.grid(row=2, column=1)
 
+# マニュアル操作画面 扉操作用フレーム
 class hatch_frame(tk.Frame):
 
     angle_open = 90
